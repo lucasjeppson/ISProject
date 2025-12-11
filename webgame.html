@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>2D Head Soccer</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Press+Start+2P&display=swap');
+
+    body {
+        margin: 0;
+        overflow: hidden;
+        background: #0c6b0c;
+        font-family: Arial, sans-serif;
+        text-align: center;
+    }
+
+    #header {
+        font-family: 'Luckiest Guy', cursive;
+        font-size: 60px;
+        color: #00ff99;
+        text-shadow: 2px 2px #003300;
+        margin-top: 10px;
+        text-align: center;
+    }
+
+    #gameCanvas {
+        display: block;
+        margin: 20px auto 0 auto;
+        background: #1ea11e;
+        border: 3px solid #00ff99;
+        box-shadow: 0 0 20px #00ff99;
+    }
+
+    #controls {
+        margin-top: 10px;
+        z-index: 1001;
+        position: relative;
+    }
+
+    button {
+        margin: 5px;
+        padding: 10px 20px;
+        font-size: 18px;
+        background: #00ff99;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 0 10px #00ff99;
+        position: relative;
+        z-index: 1001;
+    }
+
+    #matchOverScreen {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.8);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        font-size: 40px;
+        z-index: 1000;
+        pointer-events: none; /* allow clicks through overlay */
+    }
+
+    #matchMessage {
+        font-family: 'Luckiest Guy', cursive;
+        font-size: 50px;
+        margin-bottom: 20px;
+        pointer-events: auto;
+    }
+
+    #controlsGuide {
+        font-family: 'Press Start 2P', cursive;
+        color: #ffff00;
+        font-size: 18px;
+        margin-top: 15px;
+        background: rgba(0,0,0,0.5);
+        display: inline-block;
+        padding: 10px 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px #00ff99;
+    }
+</style>
+</head>
+<body>
+
+<div id="header">USA VS. THE WORLD</div>
+
+<canvas id="gameCanvas" width="1000" height="500"></canvas>
+
+<div id="controls">
+    <button id="pauseBtn">Pause</button>
+    <button id="newGameBtn">New Game</button>
+    <button id="returnHomeBtn" onclick="location.href='WC.html'">Return Home</button>
+</div>
+
+<div id="controlsGuide">
+    <div>Controls:</div>
+    <div>Move Left: A</div>
+    <div>Move Right: D</div>
+    <div>Move Down: S</div>
+    <div>Jump: W</div>
+</div>
+
+<div id="matchOverScreen">
+    <div id="matchMessage">PRESS NEW GAME TO START</div>
+</div>
+
+<script>
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+
+const gravity = 0.6;
+const ground = canvas.height - 40;
+
+const nationList = ["GER", "BRA", "ESP", "ARG", "FRA", "JPN", "NED", "ENG"];
+let nationIndex = 0;
+
+let players = [
+    { x: 150, y: ground-120, w: 60, h: 120, vy:0, onGround:true, color:"#0033cc", country:"USA" },
+    { x: 780, y: ground-120, w: 60, h: 120, vy:0, onGround:true, color:"#cc0000", country:nationList[nationIndex] }
+];
+
+let ball = { x:500, y:200, r:16, vx:5, vy:2 };
+
+const goalWidth = 70;
+const goalHeight = 160;
+const leftGoal = {x:0, y:ground-goalHeight};
+const rightGoal = {x:canvas.width-goalWidth, y:ground-goalHeight};
+
+let scoreUSA = 0;
+let scoreOpp = 0;
+let matchTime = 60;
+let paused = true; // start paused
+let matchOver = true; // show overlay at start
+
+const pauseBtn = document.getElementById("pauseBtn");
+const newGameBtn = document.getElementById("newGameBtn");
+const matchOverScreen = document.getElementById("matchOverScreen");
+const matchMessage = document.getElementById("matchMessage");
+
+pauseBtn.addEventListener("click", () => {
+    if(!matchOver){
+        paused = !paused;
+        pauseBtn.textContent = paused ? "Resume" : "Pause";
+    }
+});
+
+newGameBtn.addEventListener("click", () => {
+    startNewMatch();
+});
+
+let keys = {};
+document.addEventListener("keydown",(e)=>{keys[e.code]=true;});
+document.addEventListener("keyup",(e)=>{keys[e.code]=false;});
+
+let confettiParticles = [];
+
+function resetBall(){
+    ball.x = canvas.width/2;
+    ball.y = 200;
+    ball.vx = Math.random() > 0.5 ? 5 : -5;
+    ball.vy = 0;
+}
+
+function resetPlayers(){
+    players[0].x = 150; players[0].y = ground-120;
+    players[1].x = 780; players[1].y = ground-120;
+}
+
+function nextOpponent(){
+    nationIndex = (nationIndex+1)%nationList.length;
+    players[1].country = nationList[nationIndex];
+}
+
+function startNewMatch(){
+    scoreUSA = 0;
+    scoreOpp = 0;
+    matchTime = 60;
+    matchOver = false;
+    paused = false;
+    resetPlayers();
+    resetBall();
+    nextOpponent();
+    matchOverScreen.style.display = "none";
+    pauseBtn.textContent = "Pause";
+}
+
+setInterval(()=>{
+    if(!paused && !matchOver){
+        matchTime--;
+        if(matchTime <=0){
+            endMatch();
+        }
+    }
+},1000);
+
+function endMatch(){
+    matchOver = true;
+    paused = true;
+    matchOverScreen.style.display = "flex";
+    if(scoreUSA > scoreOpp) matchMessage.textContent = "YOU WIN!";
+    else if(scoreUSA < scoreOpp) matchMessage.textContent = "YOU LOSE!";
+    else matchMessage.textContent = "IT'S A TIE!";
+}
+
+function spawnConfetti(x, y){
+    for(let i=0;i<50;i++){
+        confettiParticles.push({
+            x: x,
+            y: y,
+            vx: (Math.random()-0.5)*6,
+            vy: Math.random()*-6-2,
+            color: `hsl(${Math.random()*360},100%,50%)`,
+            life: 60
+        });
+    }
+}
+
+function movePlayers(){
+    if(!paused){
+        let p = players[0];
+        if(keys["KeyA"]) p.x -=5;
+        if(keys["KeyD"]) p.x +=5;
+        if(keys["KeyS"]) p.y +=4;
+        if(keys["KeyW"] && p.onGround){
+            p.vy = -14;
+            p.onGround = false;
+        }
+
+        let opp = players[1];
+        if(ball.x < opp.x) opp.x -=3;
+        if(ball.x > opp.x+opp.w) opp.x +=3;
+        if(Math.random()<0.01 && opp.onGround){
+            opp.vy=-12;
+            opp.onGround=false;
+        }
+
+        players.forEach(pl=>{
+            pl.y += pl.vy;
+            pl.vy += gravity;
+            if(pl.y+pl.h>ground){
+                pl.y=ground-pl.h;
+                pl.vy=0;
+                pl.onGround=true;
+            }
+            if(pl.x<0) pl.x=0;
+            if(pl.x+pl.w>canvas.width) pl.x=canvas.width-pl.w;
+        });
+    }
+}
+
+function moveBall(){
+    if(!paused){
+        ball.x += ball.vx;
+        ball.y += ball.vy;
+        ball.vy += gravity*0.4;
+
+        if(ball.x-ball.r<0){ ball.x=ball.r; ball.vx*=-1; }
+        if(ball.x+ball.r>canvas.width){ ball.x=canvas.width-ball.r; ball.vx*=-1; }
+        if(ball.y-ball.r<0){ ball.y=ball.r; ball.vy*=-1; }
+        if(ball.y+ball.r>ground){ ball.y=ground-ball.r; ball.vy*=-0.7; }
+
+        players.forEach(p=>{
+            if(ball.x+ball.r>p.x && ball.x-ball.r<p.x+p.w && ball.y+ball.r>p.y && ball.y-ball.r<p.y+p.h){
+                if(ball.x<p.x+p.w/2) ball.vx=-Math.abs(ball.vx); else ball.vx=Math.abs(ball.vx);
+                ball.vy-=2;
+            }
+        });
+
+        if(ball.x-ball.r<=leftGoal.x+goalWidth && ball.y>leftGoal.y && ball.y<leftGoal.y+goalHeight){
+            scoreOpp++;
+            spawnConfetti(ball.x, ball.y);
+            resetPlayers();
+            resetBall();
+        }
+        if(ball.x+ball.r>=rightGoal.x && ball.y>rightGoal.y && ball.y<rightGoal.y+goalHeight){
+            scoreUSA++;
+            spawnConfetti(ball.x, ball.y);
+            resetPlayers();
+            resetBall();
+        }
+    }
+}
+
+function drawPlayer(p){
+    ctx.fillStyle = p.color;
+    ctx.fillRect(p.x,p.y,p.w,p.h);
+    ctx.beginPath();
+    ctx.arc(p.x+p.w/2,p.y-25,30,0,Math.PI*2);
+    ctx.fillStyle="#ffe0bd";
+    ctx.fill();
+    ctx.fillStyle="white";
+    ctx.font="18px 'Press Start 2P'";
+    ctx.fillText(p.country,p.x+5,p.y+p.h/2);
+}
+
+function updateConfetti(){
+    confettiParticles.forEach((c,i)=>{
+        c.x += c.vx;
+        c.y += c.vy;
+        c.vy += 0.2;
+        c.life--;
+        if(c.life<=0) confettiParticles.splice(i,1);
+    });
+}
+
+function drawConfetti(){
+    confettiParticles.forEach(c=>{
+        ctx.fillStyle=c.color;
+        ctx.fillRect(c.x,c.y,5,5);
+    });
+}
+
+function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    ctx.fillStyle="#ffffff";
+    ctx.fillRect(0,ground,canvas.width,4);
+
+    ctx.strokeStyle="white";
+    ctx.lineWidth=4;
+    ctx.strokeRect(leftGoal.x,leftGoal.y,goalWidth,goalHeight);
+    ctx.strokeRect(rightGoal.x,rightGoal.y,goalWidth,goalHeight);
+
+    ctx.beginPath();
+    ctx.arc(ball.x,ball.y,ball.r,0,Math.PI*2);
+    ctx.fillStyle="white";
+    ctx.fill();
+    ctx.strokeStyle="black";
+    ctx.stroke();
+
+    drawPlayer(players[0]);
+    drawPlayer(players[1]);
+
+    // Scoreboard title centered
+    ctx.fillStyle="yellow";
+    ctx.font="36px 'Luckiest Guy', cursive";
+    ctx.textAlign="center";
+    ctx.fillText(`USA ${scoreUSA} - ${scoreOpp} ${players[1].country}`, canvas.width/2,50);
+
+    // Timer centered
+    ctx.font="28px 'Press Start 2P'";
+    ctx.fillStyle="white";
+    ctx.fillText(`Time: ${matchTime}`, canvas.width/2,90);
+
+    drawConfetti();
+}
+
+function loop(){
+    movePlayers();
+    moveBall();
+    updateConfetti();
+    draw();
+    requestAnimationFrame(loop);
+}
+
+loop();
+</script>
+
+</body>
+</html>

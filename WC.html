@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Everything You Need to Know About Soccer</title>
+
+<!-- Fun Sporty Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        margin: 0;
+        font-family: 'Montserrat', sans-serif;
+        background: #ecffec;
+        color: #063b00;
+    }
+
+    /* Animated Gradient Header */
+    header {
+        background: linear-gradient(120deg, #0f7a00, #26b300, #088000);
+        background-size: 300% 300%;
+        animation: gradientAnimation 12s ease infinite;
+        color: white;
+        padding: 90px 20px;
+        text-align: center;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    @keyframes gradientAnimation {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    header h1 {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 95px;
+        letter-spacing: 3px;
+        margin-bottom: 15px;
+        text-shadow: 0px 5px 10px rgba(0,0,0,0.15);
+    }
+
+    header p {
+        font-size: 24px;
+        opacity: 0.95;
+    }
+
+    /* Navigation */
+    nav {
+        background: #0f7a00;
+        padding: 14px 0;
+        text-align: center;
+        position: sticky;
+        top: 0;
+        z-index: 999;
+        box-shadow: 0px 3px 10px rgba(0,0,0,0.2);
+    }
+
+    nav a {
+        color: white;
+        margin: 0 18px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 18px;
+        transition: 0.3s;
+        padding: 8px 14px;
+        border-radius: 8px;
+    }
+
+    nav a:hover {
+        background: #1fc950;
+        box-shadow: 0px 0px 10px rgba(0, 255, 100, 0.7);
+    }
+
+    /* Section Styling */
+    section {
+        padding: 40px 25px;
+        max-width: 950px;
+        margin: 40px auto;
+        background: #ffffff;
+        border-radius: 18px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        animation: fadeIn 1.2s ease;
+    }
+
+    @keyframes fadeIn {
+        from {opacity: 0; transform: translateY(20px);}
+        to {opacity: 1; transform: translateY(0);}
+    }
+
+    h2 {
+        font-size: 34px;
+        color: #0f5e00;
+        font-weight: 700;
+        border-left: 8px solid #1bc954;
+        padding-left: 12px;
+        margin-bottom: 20px;
+    }
+
+    ul li {
+        margin-bottom: 15px;
+        line-height: 1.5;
+    }
+
+    /* World Cup Group Cards */
+    .group-container {
+        display: grid;
+        gap: 25px;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        margin-top: 25px;
+    }
+
+    .group-box {
+        background: #edffee;
+        padding: 15px 18px;
+        border-radius: 12px;
+        border-left: 6px solid #1b8a00;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+        transition: transform 0.25s, box-shadow 0.25s;
+    }
+
+    .group-box:hover {
+        transform: translateY(-7px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.22);
+    }
+
+    footer {
+        text-align: center;
+        padding: 30px;
+        margin-top: 60px;
+        color: #044200;
+        font-weight: bold;
+        font-size: 18px;
+    }
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Everything You Need to Know About Soccer</h1>
+    <p>Your complete guide to the world's most popular sport</p>
+</header>
+
+<nav>
+    <a href="webgame.html">Webapp Game</a>
+     <a href="resume.html">My Résumé</a>
+    <a href="index.html">Scratch Page</a>
+  <a href="#history">History</a>
+  <a href="#rules">Rules</a>
+  <a href="#training">Training</a>
+  <a href="#worldcup">World Cup</a>
+</nav>
+
+<section id="history">
+    <h2>History of Soccer</h2>
+    <p>Soccer—known as football outside of North America—is one of the oldest and most widely played sports in the world. 
+       Its origins trace back over 2,000 years to ancient civilizations such as China, Greece, Rome, and Central America, 
+       where various forms of ball-kicking games were popular.</p>
+    <p>The modern form of soccer took shape in England in the mid-1800s. In 1863, the Football Association (FA) was formed, 
+       establishing the first official rules of the game. The sport rapidly spread across Europe, South America, Africa, 
+       and eventually the entire world. Today, soccer is celebrated as a sport that unites nations and cultures.</p>
+</section>
+
+<section id="rules">
+    <h2>Basic Rules of How Soccer Is Played</h2>
+    <p>Soccer is played between two teams of 11 players each, on a rectangular field with a goal at each end. 
+       Players attempt to score by kicking the ball into the opposing team’s goal. Here are the key rules:</p>
+    <ul>
+        <li><strong>Match duration:</strong> Two 45-minute halves with a halftime break.</li>
+        <li><strong>No hands:</strong> Only the goalkeeper may use their hands, and only inside their penalty area.</li>
+        <li><strong>Offside rule:</strong> Prevents attackers from receiving the ball too close to the opponent’s goal without defenders nearby.</li>
+        <li><strong>Fouls:</strong> Physical or reckless contact results in free kicks, penalty kicks, or cards.</li>
+        <li><strong>Throw-ins, goal kicks, and corner kicks:</strong> Used to restart play when the ball leaves the field.</li>
+    </ul>
+</section>
+
+<section id="training">
+    <h2>Important Things to Consider</h2>
+    <ul>
+        <li><strong>Nutrition:</strong> Balanced meals with carbohydrates, protein, and proper hydration.</li>
+        <li><strong>Conditioning:</strong> Cardio, interval training, and agility drills build endurance and speed.</li>
+        <li><strong>Strength:</strong> Lower-body and core strength improve stability, kicking power, and balance.</li>
+        <li><strong>Workouts:</strong> Weekly training should include plyometrics, resistance training, and stretching.</li>
+        <li><strong>Recovery:</strong> Proper sleep, cooldowns, and mobility exercises prevent injuries.</li>
+        <li><strong>Mental preparation:</strong> Awareness, confidence, and focus play a big role in performance.</li>
+    </ul>
+</section>
+
+<section id="worldcup">
+    <h2>World Cup 2026 — Group Draw</h2>
+    <p>The 2026 FIFA World Cup is the largest international soccer tournament, featuring 48 teams. Below are the confirmed groups from the official draw:</p>
+
+    <div class="group-container">
+        <div class="group-box"><strong>Group A</strong><br>Mexico<br>South Africa<br>South Korea<br>UEFA Playoff D Winner</div>
+        <div class="group-box"><strong>Group B</strong><br>Canada<br>Switzerland<br>Qatar<br>UEFA Playoff A Winner</div>
+        <div class="group-box"><strong>Group C</strong><br>Brazil<br>Morocco<br>Scotland<br>Haiti</div>
+        <div class="group-box"><strong>Group D</strong><br>USA<br>Paraguay<br>Australia<br>UEFA Playoff C Winner</div>
+        <div class="group-box"><strong>Group E</strong><br>Germany<br>Ecuador<br>Ivory Coast<br>Curaçao</div>
+        <div class="group-box"><strong>Group F</strong><br>Netherlands<br>Japan<br>Tunisia<br>UEFA Playoff B Winner</div>
+        <div class="group-box"><strong>Group G</strong><br>Belgium<br>Iran<br>Egypt<br>New Zealand</div>
+        <div class="group-box"><strong>Group H</strong><br>Spain<br>Uruguay<br>Saudi Arabia<br>Cape Verde</div>
+        <div class="group-box"><strong>Group I</strong><br>France<br>Senegal<br>Norway<br>Inter-Confed Playoff 2</div>
+        <div class="group-box"><strong>Group J</strong><br>Argentina<br>Austria<br>Algeria<br>Jordan</div>
+        <div class="group-box"><strong>Group K</strong><br>Portugal<br>Colombia<br>Uzbekistan<br>Inter-Confed Playoff 1</div>
+        <div class="group-box"><strong>Group L</strong><br>England<br>Croatia<br>Ghana<br>Panama</div>
+    </div>
+</section>
+<div class="tableauWrapper">
+    <div class='tableauPlaceholder' id='viz1765390899224'>
+        <noscript>
+            <a href='#'>
+                <img alt='World Cup'
+                     src='https://public.tableau.com/static/images/AH/AHistoryoftheWorldCup/WorldCup/1_rss.png'
+                     style='border: none' />
+            </a>
+        </noscript>
+
+        <object class='tableauViz'>
+            <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
+            <param name='embed_code_version' value='3' />
+            <param name='site_root' value='' />
+            <param name='name' value='AHistoryoftheWorldCup/WorldCup' />
+            <param name='tabs' value='no' />
+            <param name='toolbar' value='yes' />
+            <param name='static_image'
+                   value='https://public.tableau.com/static/images/AH/AHistoryoftheWorldCup/WorldCup/1.png' />
+            <param name='animate_transition' value='yes' />
+            <param name='display_static_image' value='yes' />
+            <param name='display_spinner' value='yes' />
+            <param name='display_overlay' value='yes' />
+            <param name='display_count' value='yes' />
+            <param name='language' value='en-US' />
+        </object>
+    </div>
+</div>
+
+<style>
+    .tableauWrapper {
+        width: 115%;
+        display: flex;
+        justify-content: center;  /* centers horizontally */
+        margin: 20px 0;
+    }
+
+    #viz1765390899224 {
+        width: 100%;
+        max-width: 1400px;       /* prevents stretching on huge screens */
+        margin: 0 auto;
+    }
+
+    #viz1765390899224 object {
+        width: 100% !important;  /* full width, no duplication */
+        height: 500px !important;
+        display: block;
+    }
+</style>
+
+<script type='text/javascript'>
+    var divElement = document.getElementById('viz1765390899224');
+    var vizElement = divElement.getElementsByTagName('object')[0];
+
+    // Force proper sizing
+    vizElement.style.width = '100%';
+    vizElement.style.height = '500px';
+
+    // Load Tableau script once
+    var scriptElement = document.createElement('script');
+    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+    divElement.appendChild(scriptElement);
+</script>
+
+<footer>
+    Lucas Jeppson © 2025
+</footer>
+
+</body>
+</html>
